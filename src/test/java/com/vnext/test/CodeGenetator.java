@@ -47,10 +47,10 @@ public class CodeGenetator {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(path));
-            JDBC_URL = properties.getProperty("druid.url");
-            JDBC_USERNAME = properties.getProperty("druid.username");
-            JDBC_PASSWORD = properties.getProperty("druid.password");
-            JDBC_DIVER_CLASS_NAME = properties.getProperty("druid.driver-class");
+            JDBC_URL = properties.getProperty("jdbc.master.url");
+            JDBC_USERNAME = properties.getProperty("jdbc.master.username");
+            JDBC_PASSWORD = properties.getProperty("jdbc.master.password");
+            JDBC_DIVER_CLASS_NAME = properties.getProperty("jdbc.master.driver");
         } catch (Exception e) {
             e.printStackTrace();
             throw new ExceptionInInitializerError(e);

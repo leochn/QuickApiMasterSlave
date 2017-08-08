@@ -1,6 +1,8 @@
-/*package com.vnext.config;
+package com.vnext.datasource;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -15,16 +17,22 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.druid.pool.DruidDataSource;
 
 @Configuration
-@EnableConfigurationProperties(DruidProperties.class)
+@EnableConfigurationProperties({DataSourceMaster.class,DataSourceSlave01.class,DataSourceSlave02.class})
 @ConditionalOnClass(DruidDataSource.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
-public class DruidAutoConfiguration {
+public class DataSourceConfiguration {
+	
 	@Autowired
-    private DruidProperties properties;
-
-    @Bean
-    public DataSource dataSource() {
-        DruidDataSource dataSource = new DruidDataSource();
+    private DataSourceMaster dataSourceMaster;
+	
+	@Autowired
+	private DataSourceSlave01 dataSourceSlave01;
+	
+	@Autowired
+	private DataSourceSlave02 dataSourceSlave02;
+	
+	private DruidDataSource getDataSource(DataSourceProperties properties) {
+		DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(properties.getUrl());
         dataSource.setUsername(properties.getUsername());
         dataSource.setPassword(properties.getPassword());
@@ -44,7 +52,33 @@ public class DruidAutoConfiguration {
             throw new RuntimeException(e);
         }
         return dataSource;
+	}
+	
+	/**
+	 * 获取主库
+	 * @return
+	 */
+    public DruidDataSource masterDataSource() {
+        return getDataSource(dataSourceMaster);
+    }
+	
+    public DruidDataSource slave01DataSource() {
+    	return getDataSource(dataSourceSlave01);
     }
     
+    public DruidDataSource slave02DataSource() {
+    	return getDataSource(dataSourceSlave02);
+    }
+    
+    @Bean
+    public DataSource dataSourcePlus() {
+    	DynamicDataSource dataSourcePlus = new DynamicDataSource();
+    	Map<Object, Object> map = new HashMap<Object,Object>();
+    	map.put("master", masterDataSource());
+    	map.put("slave01", slave01DataSource());
+    	dataSourcePlus.setTargetDataSources(map);
+    	dataSourcePlus.setDefaultTargetDataSource(masterDataSource());
+    	return dataSourcePlus;
+    }
+
 }
-*/

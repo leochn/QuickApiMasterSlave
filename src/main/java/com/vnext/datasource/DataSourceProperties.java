@@ -1,9 +1,6 @@
-/*package com.vnext.config;
+package com.vnext.datasource;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-@ConfigurationProperties(prefix = "jdbc.master")
-public class DruidProperties {
+public class DataSourceProperties {
 	private String url;
     private String username;
     private String password;
@@ -64,4 +61,3 @@ public class DruidProperties {
     
     
 }
-*/
