@@ -1,4 +1,4 @@
-package com.vnext.datasource;
+/*package com.vnext.datasource;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -54,10 +54,10 @@ public class DataSourceConfiguration {
         return dataSource;
 	}
 	
-	/**
+	*//**
 	 * 获取主库
 	 * @return
-	 */
+	 *//*
     public DruidDataSource masterDataSource() {
         return getDataSource(dataSourceMaster);
     }
@@ -82,3 +82,4 @@ public class DataSourceConfiguration {
     }
 
 }
+*/

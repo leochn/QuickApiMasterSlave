@@ -114,9 +114,6 @@ public class SysUser {
     @Column(name = "del_flag")
     private String delFlag;
 
-    @Column(name = "ASD")
-    private Integer asd;
-
     /**
      * 获取id
      *
@@ -457,19 +454,5 @@ public class SysUser {
      */
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
-    }
-
-    /**
-     * @return ASD
-     */
-    public Integer getAsd() {
-        return asd;
-    }
-
-    /**
-     * @param asd
-     */
-    public void setAsd(Integer asd) {
-        this.asd = asd;
     }
 }
