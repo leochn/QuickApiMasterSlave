@@ -17,7 +17,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -36,9 +35,6 @@ import com.alibaba.druid.pool.DruidDataSource;
 public class DataSourceConfig {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DataSourceConfig.class);
-	
-	@Value("${jdbc.master.url}")
-    private String jdbcMasterUrl;
 	
 	@Autowired
     private DataSourceMaster dataSourceMaster;
@@ -93,7 +89,6 @@ public class DataSourceConfig {
     @Bean
     @Primary
     public DataSource dataSourcePlus() {
-    	//System.out.println("jdbcMasterUrl=============" + this.jdbcMasterUrl);
     	DynamicDataSource dataSourcePlus = new DynamicDataSource();
     	Map<Object, Object> map = new HashMap<Object,Object>();
 		map.put(DATASOURCE_MASTER, masterDataSource());
