@@ -1,5 +1,7 @@
 # 创建数据库
-create database vue_dashboard default character set utf8;
+create database master_write default character set utf8;
+create database slave01_read default character set utf8;
+create database slave02_read default character set utf8;
 
 # 用户表
 create table `sys_user` (

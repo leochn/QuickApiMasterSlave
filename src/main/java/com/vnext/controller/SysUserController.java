@@ -152,5 +152,14 @@ public class SysUserController {
 		}
 		return ResultGenerator.genFailResult();
 	}
+	
+	@GetMapping("/sysUser/savePojo")
+	public Result savePojo() {
+		List<SysUser> list = this.sysUserService.savePojo();
+		if (list != null) {
+			return ResultGenerator.genSuccessResult(list.size(), list);
+		}
+		return ResultGenerator.genNotFoundResult();
+	}
 
 }

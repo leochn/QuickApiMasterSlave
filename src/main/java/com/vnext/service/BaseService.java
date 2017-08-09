@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.vnext.core.ServiceException;
-import com.vnext.datasource.DynamicDataSourceHolder;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
@@ -45,7 +44,6 @@ public abstract class BaseService<T> {
 	 * @return
 	 */
 	public List<T> queryAll() {
-		System.out.println("queryAll 的数据源是[" + DynamicDataSourceHolder.getDataSourceKey() + "]");
 		return mapper.select(null);
 	}
 
