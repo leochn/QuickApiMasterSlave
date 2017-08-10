@@ -161,5 +161,28 @@ public class SysUserController {
 		}
 		return ResultGenerator.genNotFoundResult();
 	}
+	
+	
+	@GetMapping("/sysUser/savePojo1")
+	public Result savePojo1() {
+		SysUser sysUser = new SysUser();
+		if (sysUser != null) {
+			System.out.println("queryOne00000000000000000000000000000");
+			System.out.println(sysUser.getUserName());
+		}
+		sysUser.setId("0001");
+		SysUser queryOne = this.sysUserService.queryOne(sysUser);
+		//System.out.println(queryOne.getUserName());
+		System.out.println("queryOne============");
+		if (queryOne != null) {
+			System.out.println("queryOne========================+++++++++++++++++++++");
+			return ResultGenerator.genSuccessResult();
+		}
+		return ResultGenerator.genNotFoundResult();
+	}
+	
+	
+	
+	
 
 }
