@@ -19,8 +19,8 @@ public class JwtUtil {
 	private static final String JWT_SECRET = "7786df7fc3a34e26a61c034d5ec8245d";
 	private static final int JWT_EXPIRATION = 60*60*1000;  //60分钟
 	
-	public static final String CLAIMKEY="claimKey";
-	public static final String CLAIMKEYVALUE="eyJzdWIiOiJ7XCJsb2dpbk5hbWVcIValue";
+	private static final String CLAIMKEY="claimKey";
+	private static final String CLAIMKEYVALUE="eyJzdWIiOiJ7XCJsb2dpbk5hbWVcIValue";
 	
 	public static String generalSubject(String id,String loginName){
 		JSONObject object = new JSONObject();
@@ -88,7 +88,7 @@ public class JwtUtil {
     
 /*    public static SysUser getSysUser (String token){
     	try {
-    		Claims claims = Jwts.parser().setSigningKey(Constant.JWT_SECRET.getBytes()).parseClaimsJws(token).getBody();
+    		Claims claims = Jwts.parser().setSigningKey(JwtUtil.JWT_SECRET.getBytes()).parseClaimsJws(token).getBody();
     		String subject = claims.getSubject();
     		SysUser sysUser = new SysUser();
     		JSONObject object = JSON.parseObject(subject);

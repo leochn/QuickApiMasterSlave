@@ -1,6 +1,10 @@
 package com.vnext.controller;
 
-import java.util.List;
+import com.github.pagehelper.PageInfo;
+import com.vnext.core.Result;
+import com.vnext.core.ResultGenerator;
+import com.vnext.pojo.SysAdmin;
+import com.vnext.service.SysAdminService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,25 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageInfo;
-import com.vnext.core.Result;
-import com.vnext.core.ResultGenerator;
-import com.vnext.pojo.SysUser;
-import com.vnext.service.SysUserService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.List;
 
 /**
- * Created by CodeGenerator on 2017/08/09.
+ * Created by CodeGenerator on 2017/08/11.
  */
-@Api(value = "sysUser信息")
 @RestController
 @RequestMapping("/api")
-public class SysUserController {
+public class SysAdminController {
 
     @Autowired
-    private SysUserService sysUserService;  
+    private SysAdminService sysAdminService;  
     
     /**
      * 分页获取数据
@@ -39,12 +35,11 @@ public class SysUserController {
      * @param rows
      * @return
      */
-    @ApiOperation("分页查询数据,page页数,rows每页显示条数")
-    @GetMapping("/sysUserList")
+    @GetMapping("/sysAdminList")
     public Result getPageList(
     		@RequestParam(value = "page") Integer page,
 			@RequestParam(value = "rows") Integer rows) {
-    	PageInfo<SysUser> pageInfo = this.sysUserService.queryPageListByWhere(new SysUser(), page, rows);
+    	PageInfo<SysAdmin> pageInfo = this.sysAdminService.queryPageListByWhere(new SysAdmin(), page, rows);
 		if (pageInfo != null) {
 			return ResultGenerator.genSuccessResult(pageInfo.getTotal(), pageInfo.getList());
 		}
@@ -59,13 +54,13 @@ public class SysUserController {
      * @param sortOrder
      * @return
      */
-    @GetMapping("/sysUserListOrderBy")
+    @GetMapping("/sysAdminListOrderBy")
     public Result getPageListAndOrderBy(
     		@RequestParam(value = "page") Integer page,
 			@RequestParam(value = "rows") Integer rows,
 			@RequestParam(value = "sortField", defaultValue = "ID") String sortField,
 			@RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder) {
-    	PageInfo<SysUser> pageInfo = this.sysUserService.queryPageListByWhereAndOrderBy(new SysUser(), page, rows, sortField, sortOrder);
+    	PageInfo<SysAdmin> pageInfo = this.sysAdminService.queryPageListByWhereAndOrderBy(new SysAdmin(), page, rows, sortField, sortOrder);
 		if (pageInfo != null) {
 			return ResultGenerator.genSuccessResult(pageInfo.getTotal(), pageInfo.getList());
 		}
@@ -76,9 +71,9 @@ public class SysUserController {
      * 获取全部数据
      * @return
      */
-	@GetMapping("/sysUsers")
+	@GetMapping("/sysAdmins")
 	public Result all() {
-		List<SysUser> list = this.sysUserService.queryAll();
+		List<SysAdmin> list = this.sysAdminService.queryAll();
 		if (list != null) {
 			return ResultGenerator.genSuccessResult(list.size(), list);
 		}
@@ -90,9 +85,9 @@ public class SysUserController {
      * @param id
      * @return
      */
-    @GetMapping("/sysUser/{id}")
+    @GetMapping("/sysAdmin/{id}")
     public Result detail(@PathVariable String id) {
-        SysUser record = this.sysUserService.queryById(id);
+        SysAdmin record = this.sysAdminService.queryById(id);
         if (record != null) {
         	return ResultGenerator.genSuccessResult(1,record);
 		}
@@ -105,11 +100,11 @@ public class SysUserController {
 	 * @param value
 	 * @return
 	 */
-	@GetMapping("/sysUser/{fieldName}/{value}")
+	@GetMapping("/sysAdmin/{fieldName}/{value}")
 	public Result queryByFieldName(
 			@PathVariable("fieldName") String fieldName,
 			@PathVariable("value") String value) {
-		SysUser record = this.sysUserService.queryByFieldName(fieldName, value);
+		SysAdmin record = this.sysAdminService.queryByFieldName(fieldName, value);
 		if (record != null) {
 			return ResultGenerator.genSuccessResult(1, record);
 		}
@@ -120,9 +115,9 @@ public class SysUserController {
 	 * 新增一条信息
 	 * @return
 	 */
-	@PostMapping("/sysUser")
-	public Result add(@RequestBody SysUser record) {
-		Integer num = this.sysUserService.saveSelective(record);
+	@PostMapping("/sysAdmin")
+	public Result add(@RequestBody SysAdmin record) {
+		Integer num = this.sysAdminService.saveSelective(record);
 		if (num == 1) {
 			return ResultGenerator.genSuccessResult();
 		}
@@ -135,9 +130,9 @@ public class SysUserController {
 	 * @param record
 	 * @return
 	 */
-	@PutMapping("/sysUser/{id}")
-	public Result update(@PathVariable("id") String id, @RequestBody SysUser record) {
-		Integer num = this.sysUserService.updateSelective(record);
+	@PutMapping("/sysAdmin/{id}")
+	public Result update(@PathVariable("id") String id, @RequestBody SysAdmin record) {
+		Integer num = this.sysAdminService.updateSelective(record);
 		if (num == 1) {
 			return ResultGenerator.genSuccessResult();
 		}
@@ -149,45 +144,13 @@ public class SysUserController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("/sysUser/{id}")
+	@DeleteMapping("/sysAdmin/{id}")
 	public Result delete(@PathVariable("id") String id) {
-		Integer num = this.sysUserService.deleteById(id);
+		Integer num = this.sysAdminService.deleteById(id);
 		if (num == 1) {
 			return ResultGenerator.genSuccessResult();
 		}
 		return ResultGenerator.genFailResult();
 	}
-	
-	@GetMapping("/sysUser/savePojo")
-	public Result savePojo() {
-		List<SysUser> list = this.sysUserService.savePojo();
-		if (list != null) {
-			return ResultGenerator.genSuccessResult(list.size(), list);
-		}
-		return ResultGenerator.genNotFoundResult();
-	}
-	
-	
-	@GetMapping("/sysUser/savePojo1")
-	public Result savePojo1() {
-		SysUser sysUser = new SysUser();
-		if (sysUser != null) {
-			System.out.println("queryOne00000000000000000000000000000");
-			System.out.println(sysUser.getUserName());
-		}
-		sysUser.setId("0001");
-		SysUser queryOne = this.sysUserService.queryOne(sysUser);
-		//System.out.println(queryOne.getUserName());
-		System.out.println("queryOne============");
-		if (queryOne != null) {
-			System.out.println("queryOne========================+++++++++++++++++++++");
-			return ResultGenerator.genSuccessResult();
-		}
-		return ResultGenerator.genNotFoundResult();
-	}
-	
-	
-	
-	
 
 }

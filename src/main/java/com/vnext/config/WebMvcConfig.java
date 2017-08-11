@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 //import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -101,11 +100,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     //添加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        if (!"dev22".equals(environment)) { //开发环境忽略签名认证
+        if (!"dev".equals(environment)) { //开发环境忽略签名认证
             registry.addInterceptor(new HandlerInterceptorAdapter() {
                 @Override
                 public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                    logger.info("请求IP：{}，请求参数：{}",getIpAddress(request), JSON.toJSONString(request.getParameterMap()));
+                    logger.info("请求接口：{}，请求IP：{}，请求参数：{}",request.getRequestURI(), getIpAddress(request), JSON.toJSONString(request.getParameterMap()));
                     // 验证签名,并把登录用户的信息保存在本地线程 UserThreadLocal 
             		// UserThreadLocal.set(null);
             		String authorization = request.getHeader(ProjectConstant.AUTHORIZATION);
@@ -130,7 +129,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                     		}*/
             			}
                     }
-                    
+
                     if (!flag) {
                         //response.setStatus(HttpStatus.FORBIDDEN.value());
                         /*response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -139,6 +138,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                         result.setCode(ResultCode.UNAUTHORIZED).setMessage("签名认证失败");
                         responseResult(response, result);
                     }
+                    
+                    if (flag) {
+						// 进行api接口访问权限验证.
+                    	// request.getRequestURI();
+					}
+                    
                     return flag;
                 }
             }).addPathPatterns("/api/**").excludePathPatterns("/rest/**");
