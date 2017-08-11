@@ -25,4 +25,28 @@
     <result column="remarks" jdbcType="VARCHAR" property="remarks" />
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
+  
+  
+  
+  <update id="updateForBatch" parameterType="java.util.List">  
+      update sys_user set  
+      user_name=  
+      <foreach collection="list" item="item" index="index" separator=" " open="case id" close="end">  
+        when #{item.id,jdbcType=VARCHAR} then #{item.userName,jdbcType=VARCHAR}  
+      </foreach>  
+      ,email=  
+      <foreach collection="list" item="item" index="index" separator=" " open="case id" close="end">  
+        when #{item.id,jdbcType=VARCHAR} then #{item.email,jdbcType=VARCHAR}  
+      </foreach> 
+      where ID in  
+      <foreach collection="list" index="index" item="item" separator="," open="(" close=")">  
+        #{item.id,jdbcType=VARCHAR}  
+      </foreach>  
+  </update> 
+  
+  
+  
+  
+  
+  
 </mapper>

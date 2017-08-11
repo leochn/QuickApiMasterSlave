@@ -1,5 +1,6 @@
 package com.vnext.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,6 +166,34 @@ public class SysUserController {
 			return ResultGenerator.genSuccessResult(list.size(), list);
 		}
 		return ResultGenerator.genNotFoundResult();
+	}
+	@GetMapping("/sysUser/updateForBatch")
+	public Result updateForBatch() {
+		ArrayList<SysUser> list = new ArrayList<SysUser>();
+		SysUser sysUser0 = new SysUser();
+		sysUser0.setUserName("hello0");
+		sysUser0.setEmail("hello0@163.com");
+		SysUser sysUser1 = new SysUser();
+		sysUser1.setUserName("hello1");
+		sysUser1.setEmail("hello1@163.com");
+		SysUser sysUser2 = new SysUser();
+		sysUser2.setUserName("hello2");
+		sysUser2.setEmail("hello2@163.com");
+		SysUser sysUser3 = new SysUser();
+		sysUser3.setUserName("hello3");
+		sysUser3.setEmail("hello3@163.com");
+		sysUser0.setId("01");
+		sysUser1.setId("02");
+		sysUser2.setId("03");
+		sysUser3.setId("04");
+		list.add(sysUser0);
+		list.add(sysUser1);
+		list.add(sysUser2);
+		list.add(sysUser3);
+		this.sysUserService.updateForBatch(list);
+		
+		return ResultGenerator.genSuccessResult();
+		
 	}
 	
 	
